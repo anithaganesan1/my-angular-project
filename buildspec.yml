@@ -2,7 +2,7 @@ version: 0.1
 
 environment_variables:
     plaintext:
-        S3_BUCKET: "2025app-ang"
+        S3_BUCKET: "2025app-ang-file"
         BUILD_ENV: "prod"
 phases:
     install:
