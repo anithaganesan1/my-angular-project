@@ -1,0 +1,28 @@
+version: 0.1
+
+environment_variables:
+    plaintext:
+        S3_BUCKET: "mediafiles-bucket11"
+        BUILD_ENV: "prod"
+phases:
+    install:
+        commands:
+            - echo Installing source NPM dependencies...
+            - npm install
+            - npm install -g @angular/cli@19.2.7
+    build:
+        commands:
+            - echo Build started on `date`
+            - node -v
+            - npm -v
+            - ng build
+    post_build:
+         commands:
+            - aws s3 cp dist s3://${S3_BUCKET} --recursive
+            - echo Build completed on `date`
+
+artifacts:
+    files:
+        - '**/*'
+    base-directory: 'dist*'
+    discard-paths: yes
