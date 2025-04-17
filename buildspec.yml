@@ -2,7 +2,7 @@ version: 0.1
 
 environment_variables:
     plaintext:
-        S3_BUCKET: "myapp-angularbucket"
+        S3_BUCKET: "myapp-angularbuck"
         BUILD_ENV: "prod"
 phases:
     install:
