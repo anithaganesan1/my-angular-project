@@ -4,6 +4,7 @@ environment_variables:
     plaintext:
         S3_BUCKET: "myapp-angularbuck"
         BUILD_ENV: "prod"
+        BUILD_FOLDER: "dist"
 phases:
     install:
         commands:
@@ -15,7 +16,7 @@ phases:
             - echo Build started on `date`
             - node -v
             - npm -v
-            - ng build
+            - ng build --prod
     post_build:
          commands:
             - aws s3 cp dist s3://${S3_BUCKET} --recursive
