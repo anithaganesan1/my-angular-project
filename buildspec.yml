@@ -21,7 +21,7 @@ phases:
     post_build:
          commands:
             - echo Pre-Build started on `date`
-            - aws s3 sync ./dist s3://$myapp-angularbuckME
+            - aws s3 sync ./dist s3://myapp-angularbuck
             - aws s3 cp dist s3://${S3_BUCKET} --recursive
             - echo Build completed on `date`
 
