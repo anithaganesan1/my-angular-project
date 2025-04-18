@@ -29,3 +29,6 @@ artifacts:
         - '**/*'
     base-directory: 'dist*'
     discard-paths: yes
+         - upload: $(System.DefaultWorkingDirectory)/dist/$(appName)
+artifact: drop
+          displayName: '3. Upload files to Artifact'
