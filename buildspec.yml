@@ -21,12 +21,12 @@ phases:
     post_build:
          commands:
             - echo Pre-Build started on `date`
-            - aws s3 sync ./dist s3://myfinal-ang-buck
-            - aws s3 cp dist s3://${S3_BUCKET} --recursive
+            - aws s3 sync ./dist/my-angular-project s3://myfinal-ang-buck
+            - aws s3 cp /dist/my-angular-project s3://${S3_BUCKET} --recursive
             - echo Build completed on `date`
 
 artifacts:
     files:
         - '**/*'
-    base-directory: 'dist*'
+    base-directory: 'dist/my-angular-project*'
     discard-paths: yes
