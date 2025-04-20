@@ -2,14 +2,17 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /var/www/APPLICATION_NAME
-permissions:
-  - object: /var/www/APPLICATION_NAME/tmpfiles
-    mode: 644
-    acls:
-      - "d:u::rwx"
-      - "d:g::rwx"
-      - "d:o::rwx"
-    owner: ec2-user
-    type:
-      - directory
+    destination: /var/www/angular-app
+hooks:
+  BeforeInstall:
+    - location: scripts/before_install.sh
+      timeout: 300
+      runas: ec2-user
+  AfterInstall:
+    - location: scripts/after_install.sh
+      timeout: 300
+      runas: ec2-user
+  ApplicationStart:
+    - location: scripts/start.sh
+      timeout: 300
+      runas: ec2-user
