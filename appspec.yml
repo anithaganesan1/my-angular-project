@@ -2,14 +2,10 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /var/www/APPLICATION_NAME
-permissions:
-  - object: /var/www/APPLICATION_NAME/tmpfiles
-    mode: 644
-    acls:
-      - "d:u::rwx"
-      - "d:g::rwx"
-      - "d:o::rwx"
-    owner: ec2-user
-    type:
-      - directory
+    destination: /var/www/html
+    overwrite: true
+file_exists_behavior: OVERWRITE
+hooks:
+  AfterInstall:
+    - location: install_nginx.sh
+      timeout: 300

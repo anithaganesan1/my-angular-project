@@ -1,31 +1,41 @@
-version: 0.1
+version: 0.2
 
-environment_variables:
-    plaintext:
-        S3_BUCKET: "myfinal-angular-bucket"
-        BUILD_ENV: "prod"
-        BUILD_FOLDER: "dist"
+env:
+  variables:
+    S3_BUCKET: "angular-bucket-1234"
+    BUILD_FOLDER: "dist/my-angular-project"
+    ZIP_NAME: "angular-build.zip"
+
 phases:
-    install:
-        commands:
-            - echo Installing source NPM dependencies...
-            - npm install
-            - npm install -g @angular/cli@19.2.7
-    build:
-        commands:
-            - echo Build started for $BUILD_ENV on `date`
-            - node -v
-            - npm -v
-            - ng build
-            - echo Build completed…
-    post_build:
-         commands:
-            - echo Pre-Build started on `date`
-            - aws s3 cp ./dist/my-angular-project s3://${S3_BUCKET} --recursive
-            - echo Build completed on `date`
+  install:
+    runtime-versions:
+      nodejs: 18
+    commands:
+      - echo Installing source NPM dependencies...
+      - npm install
+      - npm install -g @angular/cli@19.2.7
+
+  build:
+    commands:
+      - echo Build started on `date`
+      - node -v
+      - npm -v
+      - ng build
+      - echo Build completed…
+
+  post_build:
+    commands:
+      - echo Preparing deployment package...
+      - mkdir deploy
+      - cp -r $BUILD_FOLDER/* deploy/
+      - cp appspec.yml deploy/
+      - cp install_nginx.sh deploy/
+      - cd deploy
+      - zip -r ../$ZIP_NAME .
+      - cd ..
+      - echo Uploading $ZIP_NAME to S3 bucket $S3_BUCKET...
+      - aws s3 cp $ZIP_NAME s3://$S3_BUCKET/$ZIP_NAME
 
 artifacts:
-    files:
-        - '**/*'
-    base-directory: 'dist*'
-    discard-paths: yes
+  files:
+    - angular-build.zip
