@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   variables:
-    S3_BUCKET: "angular-bucket-1234"
+    S3_BUCKET: "myfinal-angular-bucket"
     BUILD_FOLDER: "dist/my-angular-project"
     ZIP_NAME: "angular-build.zip"
 
